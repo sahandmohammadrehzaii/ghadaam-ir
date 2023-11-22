@@ -22,6 +22,7 @@ for i in range(1):
 
 #cli-3
 
+
 for i in range(1):
     print("")
     
@@ -83,13 +84,49 @@ def check_all_messages(message):
 #write-the-massage-ghadaam-ir    => black.cli   <+>   console.log("hello world I am ghadaam-ir")
 
     response('سلام', ['hello', 'سلام', 'hi', 'salam',], single_response=True)
+    #
     response('به اميد ديدار', ['به اميد ديدار', 'bye', 'goodbye', 'خداحافظ', 'باي',], single_response=True)
+    #
     response('من هيچ گونه احساس ندارم و نمي توانم مانند انسان ها حس داشته باشم', ['حالت چطوره', 'خوبي', 'how are you', 'حالت خوبه '], required_words=['چطوري'])
-    response('خوش آمدید به قادم آی آر', ['thank', 'thanks'], single_response=True)
+    #
     response('متشکرم از شما', ['ممنون', 'دستت درد نکنه', 'با تشکر از شما',], required_words=['code', 'palace'])
-
-
+    #
+    response('من توسط تیم قادم ساخته شده ام که من فقط می توانم به سوال های علمی و درسی و برنامه نویس شما جواب بدهم', ['تو چه کسی هستی ؟', 'تو ساخت کدام تیم هستی ؟', 'تو چه کاربردی داری ؟',
+    'تو چه کسی هستی', 'تو ساخت کدام تیم هستی', 'تو چه کاربردی داری',], single_response=True)
+    #
+    response('من با زبان برنامه نویسی پایتون و جاوا اسکریپ و مونگو دی بی ساخته شده ام', ['تو با کدام زبان برنامه نویسی ساخته شده ای ؟', 'تو با کدام زبان برنامه نویسی ساخته شده ای', 'تو را با کدام زبان برنامه نویسی طراحی شده اس ؟', 'تو را با کدام زبان برنامه نویسی طراحی شده ای',], single_response=True)
+    #
+    response('امام زمان آخرین امام ما مسلمین است که پدر ایشان امام حسن عسکری است که مادر ایشان نرگس خاتون هستند که ایشان روزی به دستور خداوند متعال ظهور می کنند',
+    ['اما زمان کیست ؟', 'امام زمان کیست', 'حضرت مهدی چه کسی است ؟', 'امام زمان کیست؟', 'حضرت مهدی چه کسی است؟', 'درباره امام زمان بگو', 'درباره حضرت مهدی بگو',
+    'حضرت مهدی کی ظهور  می کنند', 'حضرت مهدی کی ظهور می کنند ؟', 'حضرت مهدی کی ظهور می کنند؟', 'امام زمان کی ظهور می کنند', 'امام زمان کی ظهور می کنند؟', 'امام زمان کی ظهور می کنند ؟', 'hre'], single_response=True)
+    #
+    response('',['', '', '',], single_response=True)
+    #
+    response('',['', '', '',], single_response=True)
+    #
+    response('',['', '', '',], single_response=True)
+    #
+    response('',['', '', '',], single_response=True)
+    #
+    #
+    response('',['', '', '',], single_response=True)
+    #
+    response('',['', '', '',], single_response=True)
+    #
+    response('',['', '', '',], single_response=True)
+    #
+    response('',['', '', '',], single_response=True)
+    #
+    response('',['', '', '',], single_response=True)
+    #
+    response('',['', '', '',], single_response=True)
+    #
+    response('',['', '', '',], single_response=True)
+    #
+    response('',['', '', '',], single_response=True)
+    #
     response(long.R_ADVICE, ['give', 'advice'], required_words=['advice'])
+    #
     response(long.R_EATING, ['what', 'you', 'eat'], required_words=['you', 'eat'])
 
     best_match = max(highest_prob_list, key=highest_prob_list.get)
