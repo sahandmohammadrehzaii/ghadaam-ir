@@ -20,7 +20,7 @@ def register():
     print("ایمیل:", email)
     
     # ذخیره اطلاعات در فایل
-    with open("ghadaam-ir = backend.api", "a") as file:
+    with open("datebass.api", "a") as file:
         file.write(f"username: {username}\n")
         file.write("\n")
         file.write("|-----------------|\n")
