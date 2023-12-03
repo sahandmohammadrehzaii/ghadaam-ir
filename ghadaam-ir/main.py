@@ -1,113 +1,44 @@
-#in the name of god
+import random
 
-#coming soon
+class ChatBot:
+    def __init__(self, responses):
+        self.responses = responses
 
-# desgined by sahandmohammadrezaii and ghadaam team
+    def get_response(self, user_input):
+        user_input = user_input.lower()
+        best_match = ''
+        highest_prob = 0
 
-import re
-import long_responses as long
+        for key in self.responses:
+            prob = self.calculate_similarity(user_input, key)
+            if prob > highest_prob:
+                highest_prob = prob
+                best_match = key
 
-for i in range(1):
-   print("              به هوش مصنوعی ساخته شده توسط تیم ویژه قادم خوش آمدید")
+        return self.responses[best_match] if highest_prob >= 0.5 else "Sorry, I don't understand."
 
-#cli-1
+    def calculate_similarity(self, input_text, response_key):
+        input_words = input_text.split()
+        response_words = response_key.split()
+        common_words = set(input_words) & set(response_words)
+        similarity = len(common_words) / len(response_words)
+        return similarity
 
-for i in range(1):
-   print("")
-   
-#cli-2
-   
-for i in range(1):
-    print("")
+# Define the responses for the bot
+responses = {
+    'hello': 'Hello, how can I assist you?',
+    'how are you': 'I am doing well, thank you!',
+    'weather': 'The weather is sunny today.',
+    'goodbye': 'Goodbye! Have a nice day.',
+    'default': 'Sorry, I dont have an appropriate response.'
+}
 
-#cli-3
+# Create an instance of the chat bot
+bot = ChatBot(responses)
 
-for i in range(1):
-    print("")
-    
-#wellcome-massage
-
-for i in range(1):
-    print("ghadaam-ir : سلام من قادم آی آر هستم من آماده خدمت به شما در هر لحظه ای هستم")
-
-#cli-4
-
-for i in range(1):
-    print("");
-    
-#cli-5
-
-for i in range(1):
-    print("");
-    
-#cli-6
-
-for i in range(1):
-    print("");
-
-#massage-components
-
-def message_probability(user_message, recognised_words, single_response=False, required_words=[]):
-    message_certainty = 0
-    has_required_words = True
-
-#massage-if & else
-
-    for word in user_message:
-        if word in recognised_words:
-            message_certainty += 1
-
-
-    percentage = float(message_certainty) / float(len(recognised_words))
-
-
-    for word in required_words:
-        if word not in user_message:
-            has_required_words = False
-            break
-
-
-    if has_required_words or single_response:
-        return int(percentage * 100)
-    else:
-        return 0
-
-
-def check_all_messages(message):
-    highest_prob_list = {}
-
-    def response(bot_response, list_of_words, single_response=False, required_words=[]):
-        nonlocal highest_prob_list
-        highest_prob_list[bot_response] = message_probability(message, list_of_words, single_response, required_words)
-
-#write-the-massage-ghadaam-ir    => black.cli   <+>   console.log("hello world I am ghadaam-ir")
-
-    response('سلام', ['hello', 'سلام', 'hi', 'salam',], single_response=True)
-    response('به اميد ديدار', ['به اميد ديدار', 'bye', 'goodbye', 'خداحافظ', 'باي',], single_response=True)
-    response('من هيچ گونه احساس ندارم و نمي توانم مانند انسان ها حس داشته باشم', ['حالت چطوره', 'خوبي', 'how are you', 'حالت خوبه '], required_words=['چطوري'])
-    response('خوش آمدید به قادم آی آر', ['thank', 'thanks'], single_response=True)
-    response('متشکرم از شما', ['ممنون', 'دستت درد نکنه', 'با تشکر از شما',], required_words=['code', 'palace'])
-
-
-    response(long.R_ADVICE, ['give', 'advice'], required_words=['advice'])
-    response(long.R_EATING, ['what', 'you', 'eat'], required_words=['you', 'eat'])
-
-    best_match = max(highest_prob_list, key=highest_prob_list.get)
-
-
-    return long.unknown() if highest_prob_list[best_match] < 1 else best_match
-
-
-
-def get_response(user_input):
-    split_message = re.split(r'\s+|[,;?!.-]\s*', user_input.lower())
-    response = check_all_messages(split_message)
-    return response
-
-
-
+# Interaction loop
 while True:
-    print('ghadaam-ir : ' + get_response(input('شما : ')))
-    
-while False:
-    print('ghadaam-ir = > def datebassment.getbyelement : ' + get_response(input('user = > api-cli: ')))
+
+    user_input = input('\nUser: ')
+    response = bot.get_response(user_input)
+    print('\nBot:', response)
