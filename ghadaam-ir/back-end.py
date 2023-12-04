@@ -1,78 +1,105 @@
+import csv
 import tkinter as tk
+from tkinter import messagebox
+import os
 
-def register():
-    # دریافت اطلاعات از ورودی‌ها
-    username = entry_username.get()
-    password = entry_password.get()
-    email = entry_email.get()
-    
-    # بررسی تکمیل اطلاعات
-    if not username or not password or not email:
-        message_window = tk.Toplevel(window)
-        message_window.title("مشکل ثبت نام")
-        message_label = tk.Label(message_window, text=". لطفا تمامی اطلاعات لازم و خواسته شده را وارد بکنید")
-        message_label.pack(padx=40, pady=20)
-        return
-    
-    # نمایش اطلاعات در کنسول
-    print("نام کاربری:", username)
-    print("رمز عبور:", password)
-    print("ایمیل:", email)
-    
-    # ذخیره اطلاعات در فایل
-    with open("ghadaam-ir = backend.api", "a") as file:
-        file.write(f"username: {username}\n")
-        file.write("\n")
-        file.write("|-----------------|\n")
-        file.write("\n")
-        file.write(f"password: {password}\n")
-        file.write("\n")
-        file.write("|-----------------|\n")
-        file.write("\n")
-        file.write(f"email: {email}\n")
-        file.write("\n")
-        file.write("|-----------------|\n")
-        file.write("\n")
-    
-    # نمایش پیام با استفاده از ویجت Toplevel
-    message_window = tk.Toplevel(window)
-    message_window.title("ثبت نام")
-    message_label = tk.Label(message_window, text="ثبت نام با موفقیت انجام شد.")
-    message_label.pack(padx=20, pady=10)
+# -*- coding: utf-8 -*-
 
-# ایجاد پنجره اصلی
-window = tk.Tk()
-window.title("فرم ثبت نام - ghadaam-IR")
-window.geometry("400x400")
+def register(username, password):
+    with open('users.csv', 'a', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow([username, password])
+    messagebox.showinfo('Registration', 'Registration successful!')
+    main_window.destroy()  # بستن پنجره اصلی بعد از ثبت نام
+    run_main_script()
 
-# تنظیم رنگ پس زمینه
-window.configure(bg="blue")
+def login(username, password):
+    with open('users.csv', 'r') as file:
+        reader = csv.reader(file)
+        for row in reader:
+            if row[0] == username and row[1] == password:
+                messagebox.showinfo('Login', 'Login successful!')
+                main_window.destroy()  # بستن پنجره اصلی بعد از ورود
+                run_main_script()
+                return
+        messagebox.showerror('Login', 'Invalid username or password.')
 
-# عنوان فرم
-label_title = tk.Label(window, text="فرم ثبت نام", font=("Arial", 20), bg="blue", fg="white")
-label_title.pack(pady=20)
+def handle_choice(choice):
+    if choice == '1':
+        register_window = tk.Toplevel(main_window)
+        register_window.title('Register')
+        register_window.geometry('300x150')
 
-# فیلد نام کاربری
-label_username = tk.Label(window, text="نام کاربری:", bg="blue", fg="white")
-label_username.pack()
-entry_username = tk.Entry(window)
-entry_username.pack()
+        username_label = tk.Label(register_window, text='\nUsername:')
+        username_label.pack()
 
-# فیلد رمز عبور
-label_password = tk.Label(window, text="رمز عبور:", bg="blue", fg="white")
-label_password.pack()
-entry_password = tk.Entry(window, show="*")
-entry_password.pack()
+        username_entry = tk.Entry(register_window)
+        username_entry.pack()
 
-# فیلد ایمیل
-label_email = tk.Label(window, text="ایمیل:", bg="blue", fg="white")
-label_email.pack()
-entry_email = tk.Entry(window)
-entry_email.pack()
+        password_label = tk.Label(register_window, text='\nPassword:')
+        password_label.pack()
 
-# دکمه ثبت نام
-button_register = tk.Button(window, text="ثبت نام", command=register)
-button_register.pack(pady=20)
+        password_entry = tk.Entry(register_window, show='*')
+        password_entry.pack()
 
-# شروع حلقه رویدادها
-window.mainloop()
+        register_button = tk.Button(register_window, text='Register', command=lambda: register(username_entry.get(), password_entry.get()))
+        register_button.pack()
+
+    elif choice == '2':
+        login_window = tk.Toplevel(main_window)
+        login_window.title('فرم ورود')
+        login_window.geometry('300x150')
+
+        username_label = tk.Label(login_window, text='\nUsername:')
+        username_label.pack()
+
+        username_entry = tk.Entry(login_window)
+        username_entry.pack()
+
+        password_label = tk.Label(login_window, text='\nPassword:')
+        password_label.pack()
+
+        password_entry = tk.Entry(login_window, show='*')
+        password_entry.pack()
+
+        login_button = tk.Button(login_window, text='ورود', command=lambda: login(username_entry.get(), password_entry.get()))
+        login_button.pack()
+
+def run_main_script():
+    # اجرای فایل main.py
+    os.system('python main.py')
+
+def main():
+    global main_window
+    main_window = tk.Tk()
+    main_window.title('بخش ثبت نام یا ورود برای استفاده از هوش مصنوعی قادم')
+    main_window.geometry('550x250')
+
+    choice_label = tk.Label(main_window, text='یکی از مراحل را برای استفاده از هوش مصتوعی انتخاب کنید')
+    choice_label.pack()
+
+    space_label = tk.Label(main_window, text='\n')  # فاصله بین دکمه‌ها
+    space_label.pack()
+
+    register_button = tk.Button(main_window, text='ثبت نام', command=lambda: handle_choice('1'))
+    register_button.pack()
+
+    space_label = tk.Label(main_window, text='\n')  # فاصله بین دکمه‌ها
+    space_label.pack()
+
+    login_button = tk.Button(main_window, text='ورود', command=lambda: handle_choice('2'))
+    login_button.pack()
+
+    space_label = tk.Label(main_window, text='\n')  # فاصله بین دکمه‌ها
+    space_label.pack()
+
+    exit_button = tk.Button(main_window, text='خروج', command=main_window.quit)
+    exit_button.pack()
+
+    main_window.mainloop()
+
+if __name__ == '__main__':
+    main()
+
+is_registered = True  # متغیر برای بررسی وضعیت ثبت نام/ورود
+
