@@ -1,5 +1,5 @@
 
-                                                  in the name of the god
+                                                  in the name of  god
 
 
 #
